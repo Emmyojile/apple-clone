@@ -1,13 +1,16 @@
-import { useState } from 'react'
 
-const App = () =>{
-  const [count, setCount] = useState(0)
-
+import { Hero } from "./Components/Hero";
+import { Highlights } from "./Components/Highlights";
+import { Navbar } from "./Components/Navbar";
+Hero;
+const App = () => {
   return (
-    <>
-      <h1 className='text-3xl font-bold underline'>Hello World</h1>
-    </>
-  )
-}
+    <main>
+      <Navbar />
+      <Hero />
+      <Highlights />
+    </main>
+  );
+};
 
-export default App
+export default App;
