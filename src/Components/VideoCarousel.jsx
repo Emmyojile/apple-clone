@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { hightlightsSlides } from "../constants";
 import gsap from "gsap";
+import { pauseImg, playImg, replayImg } from "../utils";
 
 export const VideoCarousel = () => {
   const videoRef = useRef([]);
@@ -41,10 +42,15 @@ export const VideoCarousel = () => {
       });
     }
   }, [videoId, startPlay]);
+  
+  const handleProcess = (type, i) = {
+
+  }
+
   return (
     <>
       <div className="flex items-center ">
-        {hightlightsSlides.map((list, index) => (
+        {hightlightsSlides.map((list, i) => (
           <div key={list.id} className="sm:pr-20 pr-10 bg-white" id="slider">
             <div className="video-carousel_container bg-slate-500">
               <div className="w-full h-full flex-center rounded-3xl bg-black">
@@ -77,7 +83,34 @@ export const VideoCarousel = () => {
       </div>
 
       <div className="relative flex-center mt-10">
-        
+        <div className="flex-center py-5  px-7 bg-gray-300 backdrop-blur rounded-full">
+          {videoRef.current.map((_, i) => (
+            <span
+              key={i}
+              ref={(el) => (videoDivRef.current[i] = el)}
+              className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer "
+            >
+              <span
+                className="absolute bg-red-500 h-full w-full rounded-full"
+                ref={(el) => (videoSpanRef.current[i] = el)}
+              />
+            </span>
+          ))}
+        </div>
+        <button className="control-btn">
+          <img
+            src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
+            alt={isLastVideo ? "replay" : !isPlaying ? "play" : "pause"}
+            className="w-10 h-10"
+            onClick={
+              isLastVideo
+                ? () => handleProcess("video-reset")
+                : !isPlaying
+                ? () => handleProcess("play")
+                : () => handleProcess("pause")
+            }
+          />
+        </button>
       </div>
     </>
   );
