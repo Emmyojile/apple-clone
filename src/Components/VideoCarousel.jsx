@@ -43,9 +43,32 @@ export const VideoCarousel = () => {
     }
   }, [videoId, startPlay]);
   
-  const handleProcess = (type, i) = {
+  const handleProcess = (type, i) => {
+    switch (type) {
+      case "video-end":
+        setVideo((pre) => ({ ...pre, isEnd: true, videoId: i + 1 }));
+        break;
 
-  }
+      case "video-last":
+        setVideo((pre) => ({ ...pre, isLastVideo: true }));
+        break;
+
+      case "video-reset":
+        setVideo((pre) => ({ ...pre, videoId: 0, isLastVideo: false }));
+        break;
+
+      case "pause":
+        setVideo((pre) => ({ ...pre, isPlaying: !pre.isPlaying }));
+        break;
+
+      case "play":
+        setVideo((pre) => ({ ...pre, isPlaying: !pre.isPlaying }));
+        break;
+
+      default:
+        return video;
+    }
+  };
 
   return (
     <>
@@ -101,7 +124,6 @@ export const VideoCarousel = () => {
           <img
             src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
             alt={isLastVideo ? "replay" : !isPlaying ? "play" : "pause"}
-            className="w-10 h-10"
             onClick={
               isLastVideo
                 ? () => handleProcess("video-reset")
