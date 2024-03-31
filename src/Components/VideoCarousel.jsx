@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { hightlightsSlides } from "../constants";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { pauseImg, playImg, replayImg } from "../utils";
 
 export const VideoCarousel = () => {
@@ -28,6 +29,31 @@ export const VideoCarousel = () => {
       }
     }
   }, [videoId, startPlay, isPlaying, loadedData]);
+
+
+  useGSAP(() => {
+    // slider animation to move the video out of the screen and bring the next video in
+    // gsap.to("#slider", {
+    //   transform: `translateX(${-100 * videoId}%)`,
+    //   duration: 2,
+    //   ease: "power2.inOut", // show visualizer https://gsap.com/docs/v3/Eases
+    // });
+
+    // video animation to play the video when it is in the view
+    gsap.to("#video", {
+      scrollTrigger: {
+        trigger: "#video",
+        toggleActions: "restart none none none",
+      },
+      onComplete: () => {
+        setVideo((pre) => ({
+          ...pre,
+          startPlay: true,
+          isPlaying: true,
+        }));
+      },
+    });
+  }, [isEnd, videoId]);
 
   useEffect(() => {
     const currentProgress = 0;
@@ -69,6 +95,8 @@ export const VideoCarousel = () => {
         return video;
     }
   };
+  const handleLoadedMetaData = (i, e) => setLoadedData((pre) => [...pre, e]);
+
 
   return (
     <>
@@ -89,6 +117,7 @@ export const VideoCarousel = () => {
                       isPlaying: true,
                     }));
                   }}
+                  onLoadedMetadata={(e) =>handleLoadedMetaData(i,e)}
                 >
                   <source src={list.video} type="video/mp4" />
                 </video>
