@@ -2,13 +2,15 @@
 import { Hero } from "./Components/Hero";
 import { Highlights } from "./Components/Highlights";
 import { Navbar } from "./Components/Navbar";
-Hero;
+import { MyRef } from "./Components/MyRef";
+
 const App = () => {
   return (
-    <main>
+    <main className="bg-gray-700">
       <Navbar />
       <Hero />
       <Highlights />
+      {/* <MyRef/> */}
     </main>
   );
 };
